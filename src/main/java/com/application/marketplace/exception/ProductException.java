@@ -13,4 +13,8 @@ public class ProductException extends Exception {
     public static String ProductAlreadyExists() {
         return "Product with given name already exists!";
     }
+
+    public static String ProductHasNoUsersList(long id) {
+        return "Product with id " + id + " no one bought";
+    }
 }

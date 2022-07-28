@@ -2,6 +2,7 @@ package com.application.marketplace.controller;
 
 import com.application.marketplace.exception.ProductException;
 import com.application.marketplace.model.Product;
+import com.application.marketplace.model.User;
 import com.application.marketplace.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class ProductController {
 
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getAllProducts() {
-        log.info("getting all todos controller");
+        log.info("getting all products controller");
         List<Product> products = service.getAllProducts();
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
@@ -54,6 +55,16 @@ public class ProductController {
         try {
             service.deleteProduct(id);
             return new ResponseEntity<>("Successfully deleted product by id - " + id, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/who-bought-the-product/{id}")
+    public ResponseEntity<?> getListOfUsersTWhoBuyThisProduct(@PathVariable("id") long id) {
+        log.info("getting users who bought product with id - {}", id);
+        try {
+            return new ResponseEntity<>(service.getListOfUsersTWhoBuyThisProduct(id), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }

@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "product")
@@ -24,8 +25,8 @@ public class Product {
     @JoinTable(name = "user_product",
             joinColumns = {@JoinColumn(name = "product_id")},
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    @JsonIgnore
-    private List<User> users;
+    @JsonIgnore //TODO - redone to set users
+    private Set<User> users;
 
     public Product() {
     }
@@ -54,11 +55,11 @@ public class Product {
         this.price = price;
     }
 
-    public List<User> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(Set<User> users) {
         this.users = users;
     }
 

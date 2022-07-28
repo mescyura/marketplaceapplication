@@ -3,6 +3,7 @@ package com.application.marketplace.service;
 
 import com.application.marketplace.exception.ProductException;
 import com.application.marketplace.model.Product;
+import com.application.marketplace.model.User;
 import com.application.marketplace.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -65,6 +67,18 @@ public class ProductServiceImpl implements ProductService {
         } else {
             log.info("product with id - {} successfully deleted", id);
             repository.deleteById(id);
+        }
+    }
+
+    @Override
+    public Set<User> getListOfUsersTWhoBuyThisProduct(long id) throws ProductException {
+        Product productById = getProductById(id);
+        if (!productById.getUsers().isEmpty()) {
+            log.info("found product - {}", id);
+            return productById.getUsers();
+        } else {
+            log.warn("product with id - {}, has no user list", id);
+            throw new ProductException(ProductException.ProductHasNoUsersList(id));
         }
     }
 }
